@@ -28,7 +28,7 @@ let ready = () => {
     .catch((err) => console.log(err));
 };
 
-server.listen(port, ready);
+server.listen(port, '0.0.0.0', ready);//docker
 server.on('error', onError);
 server.on('listening', onListening);
 
