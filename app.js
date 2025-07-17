@@ -18,6 +18,25 @@ import passport from "passport"
 import cors from "cors";
 
 let app = express();
+const corsOptions = {
+    origin: function (origin, callback) {
+        const allowed = process.env.CORS_ORIGIN;
+
+        if (!allowed || allowed === '*') {
+            // Permitir cualquier origen
+            callback(null, true);
+        } else {
+            const allowedOrigins = allowed.split(',').map(o => o.trim());
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        }
+    },
+    credentials: true,
+};
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -26,7 +45,7 @@ app.set("view engine", "ejs");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ origin: "https://gesstock.local", credentials: true }));
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", indexRouter);
 
