@@ -6,6 +6,8 @@ export default async (req, res, next) => {
     if (req.query.lastName) {
       queries.lastName = new RegExp(req.query.lastName, "i");
     }
+ 
+
     const allCustomer = await Customer.find(
       queries,
       "-__v -createdAt -updatedAt"
