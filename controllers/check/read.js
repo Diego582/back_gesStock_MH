@@ -6,7 +6,7 @@ export default async (req, res, next) => {
     if (req.query.client_id) {
       queries.client_id = req.query.client_id
     }
-    console.log(queries, "queries en checks")
+    
     const allCheck = await Check.find(queries, "-__v -createdAt -updatedAt")
       .populate("client_id")
       .populate({
